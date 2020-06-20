@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Auth;
 class UserController extends Controller
 {
     public function __construct() {
-        $this->middleware('role');
+        // $this->middleware('role');
     }
     /**
      * Display a listing of the resource.
@@ -89,10 +89,11 @@ class UserController extends Controller
 
     public function getUsers(Request $request)
     {
+    //   return User::all();
         if ($request->ajax()) {
             
             $users = User::all()->except([Auth::id()]);
-           
+            
             return response()->json([
                 'rows'=> $users
             ]);

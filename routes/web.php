@@ -29,6 +29,10 @@ Route::get('/', function(){
 
     });
 
+      //******************Rutas de Usuario****************
+    Route::get('getusers', 'UserController@getUsers');
+    Route::resource('users', 'UserController');    
+
 
 // Auth::routes(['register'=>false, 'confirm'=>false,'reset'=>false]);
 

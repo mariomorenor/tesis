@@ -4,8 +4,11 @@ require('./bootstrap');
 window.Vue = require('vue');
 window.Swal = require('sweetalert2');
 window.moment = require('moment');
-require('moment/locale/es')
+window.bootstrapTable = require('bootstrap-table');
+require('bootstrap-table/dist/locale/bootstrap-table-es-ES');
+require('moment/locale/es');
  
+require('@fortawesome/fontawesome-free/js/all')
 
 import Vuex from 'vuex';
 import router from './Routes';
@@ -147,7 +150,7 @@ const app = new Vue({
     store,
     mounted() {
         // this.$store.commit('checkLote');
-        
+      //TODO descomenta lo de abajo para que funcione todo  
         axios.get('isActive').then((data)=>{
             console.log(data)
             this.$store.commit('controlInit');

@@ -24,6 +24,7 @@
     <script src="{{ asset('js/silo-progressbar.js') }}"></script>
     <script src="{{ asset('js/termometro.js') }}"></script>
     <script src="{{ asset('js/app.js') }}"></script>
+    <script src="{{ asset('js/Application.js') }}"></script>
 
 </body>
 </html>

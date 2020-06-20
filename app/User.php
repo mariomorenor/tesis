@@ -39,10 +39,10 @@ class User extends Authenticatable
        
     ];
 
-    // protected $with = ['Roles_u'];
+    protected $with = ['Roles_u'];
     
-    // public function Roles_u() //Tiene ese nombre porque da problemas con Spatie al usar la funcion assignRole en un usuario
-    // {
-    //     return $this->belongsToMany(Role::class,'user_has_roles');
-    // }
+    public function Roles_u() //Tiene ese nombre porque da problemas con Spatie al usar la funcion assignRole en un usuario
+    {
+        return $this->belongsToMany(Role::class,'user_has_roles');
+    }
 }
