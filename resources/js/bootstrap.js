@@ -12,9 +12,9 @@ try {
 
     require('bootstrap');
     
-$(function () {
-    $('[data-toggle="tooltip"]').tooltip()
-})
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip()
+      })
 
 } catch (e) {}
 

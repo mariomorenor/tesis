@@ -6932,7 +6932,48 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-/* harmony default export */ __webpack_exports__["default"] = ({});
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+window.operateEvents = {
+  'click .btnInfoLote': function clickBtnInfoLote(e, value, row) {
+    app.__vue__.$router.push({
+      name: 'reporte_lote_show',
+      params: {
+        lote: row
+      }
+    });
+  }
+};
+/* harmony default export */ __webpack_exports__["default"] = ({
+  mounted: function mounted() {
+    this.initTableLotes();
+  },
+  methods: {
+    initTableLotes: function initTableLotes() {
+      var $table = $('#table');
+      $table.bootstrapTable({
+        url: '/getLotes',
+        height: '500',
+        search: true
+      });
+    }
+  }
+});
 
 /***/ }),
 
@@ -6949,7 +6990,65 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-/* harmony default export */ __webpack_exports__["default"] = ({});
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ __webpack_exports__["default"] = ({
+  props: ['lote']
+});
 
 /***/ }),
 
@@ -6983,7 +7082,111 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-/* harmony default export */ __webpack_exports__["default"] = ({});
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ __webpack_exports__["default"] = ({
+  data: function data() {
+    return {
+      roles: ''
+    };
+  },
+  mounted: function mounted() {
+    // console.log('Holi')
+    this.getRoles();
+  },
+  methods: {
+    getRoles: function getRoles() {
+      var that = this;
+      $.get({
+        url: '/roles',
+        success: function success(response) {
+          // console.log(response)
+          that.roles = response;
+        },
+        error: function error(_error) {
+          console.log(_error);
+        }
+      });
+    },
+    guardarUsuario: function guardarUsuario() {
+      $.post({
+        url: '/users',
+        data: $('#createFormUser').serialize(),
+        success: function success(response) {
+          console.log(response);
+          Swal.fire({
+            icon: 'success',
+            title: 'Operación realizada con éxito!',
+            timer: 1800
+          });
+        },
+        error: function error(_error2) {
+          console.log(_error2);
+          Swal.fire({
+            icon: 'error',
+            title: 'Operación Fallida intente más tarde'
+          });
+        }
+      });
+    }
+  }
+});
 
 /***/ }),
 
@@ -7000,7 +7203,113 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-/* harmony default export */ __webpack_exports__["default"] = ({});
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ __webpack_exports__["default"] = ({
+  data: function data() {
+    return {
+      roles: ''
+    };
+  },
+  props: ['user'],
+  mounted: function mounted() {
+    this.getRoles();
+  },
+  methods: {
+    getRoles: function getRoles() {
+      var that = this;
+      $.get({
+        url: '/roles',
+        success: function success(response) {
+          // console.log(response)
+          that.roles = response;
+        },
+        error: function error(_error) {
+          console.log(_error);
+        }
+      });
+    },
+    guardarUsuario: function guardarUsuario() {
+      var that = this;
+      $.ajax({
+        type: 'put',
+        url: '/users/' + that.user.id,
+        data: $('#createFormUser').serialize(),
+        success: function success(response) {
+          console.log(response);
+          Swal.fire({
+            icon: 'success',
+            title: 'Operación realizada con éxito!',
+            timer: 1800
+          });
+        },
+        error: function error(_error2) {
+          console.log(_error2);
+          Swal.fire({
+            icon: 'error',
+            title: 'Operación Fallida intente más tarde'
+          });
+        }
+      });
+    }
+  }
+});
 
 /***/ }),
 
@@ -7040,6 +7349,16 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+window.operateEvents = {
+  'click .editUser': function clickEditUser(e, value, row) {
+    app.__vue__.$router.push({
+      name: 'user_edit',
+      params: {
+        user: row
+      }
+    });
+  }
+};
 /* harmony default export */ __webpack_exports__["default"] = ({
   mounted: function mounted() {
     this.getUsers();
@@ -69330,9 +69649,60 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div")
+  return _vm._m(0)
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "container" }, [
+      _c("div", { staticClass: "row" }, [
+        _c("div", { staticClass: "col-9 mx-auto" }, [
+          _c("div", {}, [
+            _c(
+              "table",
+              { staticClass: "table table-hover", attrs: { id: "table" } },
+              [
+                _c("thead", [
+                  _c("tr", [
+                    _c("th", { attrs: { "data-field": "code" } }, [
+                      _vm._v("Código")
+                    ]),
+                    _vm._v(" "),
+                    _c("th", { attrs: { "data-field": "date_in" } }, [
+                      _vm._v("Fecha Ingreso")
+                    ]),
+                    _vm._v(" "),
+                    _c(
+                      "th",
+                      {
+                        attrs: {
+                          "data-field": "date_out",
+                          "data-formatter": "date_outFormatter"
+                        }
+                      },
+                      [_vm._v("Fecha Salida")]
+                    ),
+                    _vm._v(" "),
+                    _c("th", {
+                      attrs: {
+                        "data-field": "operate",
+                        "data-align": "center",
+                        "data-formatter": "operateForm",
+                        "data-events": "operateEvents"
+                      }
+                    })
+                  ])
+                ])
+              ]
+            )
+          ])
+        ])
+      ])
+    ])
+  }
+]
 render._withStripped = true
 
 
@@ -69354,9 +69724,205 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div")
+  return _c("div", { staticClass: "container" }, [
+    _c("div", { staticClass: "row" }, [
+      _c("div", { staticClass: "col-10 mt-3 mx-auto" }, [
+        _c("h2", [_vm._v("Detalles Lote")]),
+        _vm._v(" "),
+        _c("div", { staticClass: "card shadow rounded" }, [
+          _c("div", { staticClass: "card-header" }, [
+            _c("span", { staticClass: "font-weight-bold" }, [
+              _vm._v("Código:")
+            ]),
+            _vm._v(" "),
+            _c(
+              "span",
+              {
+                staticClass:
+                  "text-success font-weight-bold border rounded p-1 shadow"
+              },
+              [_vm._v(_vm._s(_vm.lote.code))]
+            )
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "card-body" }, [
+            _c("div", { staticClass: "row" }, [
+              _vm._m(0),
+              _vm._v(" "),
+              _c("div", { staticClass: "col-2 px-0" }, [
+                _c("span", [_vm._v(_vm._s(_vm.lote.quantity))])
+              ]),
+              _vm._v(" "),
+              _vm._m(1),
+              _vm._v(" "),
+              _c("div", { staticClass: "col-1 px-0" }, [
+                _c(
+                  "span",
+                  {
+                    staticClass:
+                      "p-2 border border-dark rounded-pill shadow font-weight-bold @if($lote->state == 'F') text-success  @else text-danger  @endif",
+                    attrs: {
+                      "data-html": "true",
+                      "data-toggle": "tooltip",
+                      "data-placement": "top",
+                      title:
+                        "<div class='text-left'>\n                                <span>W: Esperando</span><br>\n                                <span>A: Activo</span><br>\n                                <span>F: Terminado</span>\n                            </div>"
+                    }
+                  },
+                  [_vm._v(_vm._s(_vm.lote.state))]
+                )
+              ])
+            ]),
+            _vm._v(" "),
+            _vm._m(2)
+          ])
+        ])
+      ])
+    ])
+  ])
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col-2 pr-0" }, [
+      _c("span", { staticClass: "font-weight-bold" }, [
+        _vm._v("Cantidad Aves:")
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col-1 px-0" }, [
+      _c("span", { staticClass: "font-weight-bold" }, [_vm._v("Estado:")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "row mt-3" }, [
+      _c("div", { staticClass: "col" }, [
+        _c("div", [
+          _c(
+            "table",
+            {
+              staticClass: "table table-sm table-hover",
+              attrs: { id: "table" }
+            },
+            [
+              _c("thead", { staticClass: "thead-light" }, [
+                _c("tr", [
+                  _c(
+                    "th",
+                    {
+                      attrs: {
+                        rowspan: "2",
+                        scope: "col",
+                        "data-field": "date",
+                        "data-align": "center"
+                      }
+                    },
+                    [_vm._v("Fecha")]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "th",
+                    {
+                      attrs: {
+                        scope: "col",
+                        colspan: "3",
+                        "data-align": "center"
+                      }
+                    },
+                    [_vm._v("Alimentos")]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "th",
+                    {
+                      attrs: {
+                        scope: "col",
+                        colspan: "3",
+                        "data-align": "center"
+                      }
+                    },
+                    [_vm._v("Mortalidad")]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "th",
+                    {
+                      attrs: {
+                        rowspan: "2",
+                        scope: "col",
+                        "data-align": "center"
+                      }
+                    },
+                    [_vm._v("SALDO DE AVES")]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "th",
+                    {
+                      attrs: {
+                        rowspan: "2",
+                        scope: "col",
+                        "data-align": "center"
+                      }
+                    },
+                    [_vm._v("Peso Gramos")]
+                  )
+                ]),
+                _vm._v(" "),
+                _c("tr", [
+                  _c(
+                    "th",
+                    { attrs: { scope: "col", "data-align": "center" } },
+                    [_vm._v("Cant. Fund.")]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "th",
+                    { attrs: { scope: "col", "data-align": "center" } },
+                    [_vm._v("Consumo Día.")]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "th",
+                    { attrs: { scope: "col", "data-align": "center" } },
+                    [_vm._v("Acumulado")]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "th",
+                    { attrs: { scope: "col", "data-align": "center" } },
+                    [_vm._v("Diaria")]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "th",
+                    { attrs: { scope: "col", "data-align": "center" } },
+                    [_vm._v("Acumulado")]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "th",
+                    { attrs: { scope: "col", "data-align": "center" } },
+                    [_vm._v("%")]
+                  )
+                ])
+              ])
+            ]
+          )
+        ])
+      ])
+    ])
+  }
+]
 render._withStripped = true
 
 
@@ -69402,9 +69968,159 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div")
+  return _c("div", { staticClass: "container" }, [
+    _c("div", { staticClass: "row mt-5" }, [
+      _c("div", { staticClass: "col-8 mx-auto" }, [
+        _c(
+          "form",
+          {
+            staticClass: "bg-white border rounded shadow p-2",
+            attrs: { method: "POST", id: "createFormUser" }
+          },
+          [
+            _c("div", [
+              _c("h1", { staticClass: "font-weight-bold" }, [
+                _vm._v("Datos Usuario")
+              ]),
+              _vm._v(" "),
+              _vm._m(0),
+              _vm._v(" "),
+              _vm._m(1),
+              _vm._v(" "),
+              _c("div", { staticClass: "row" }, [
+                _c("div", { staticClass: "col-4" }, [
+                  _c("div", { staticClass: "form-group" }, [
+                    _c("label", { attrs: { for: "role" } }, [_vm._v("Rol:")]),
+                    _vm._v(" "),
+                    _c(
+                      "select",
+                      { attrs: { name: "role", id: "role" } },
+                      _vm._l(_vm.roles, function(role) {
+                        return _c(
+                          "option",
+                          { key: role.id, domProps: { value: role.name } },
+                          [
+                            _vm._v(
+                              "\n                                        " +
+                                _vm._s(role.description)
+                            )
+                          ]
+                        )
+                      }),
+                      0
+                    )
+                  ])
+                ])
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "row mb-2" }, [
+                _c("div", { staticClass: "col-4 mx-auto" }, [
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-success btn-block shadow",
+                      attrs: { type: "button" },
+                      on: {
+                        click: function($event) {
+                          return _vm.guardarUsuario()
+                        }
+                      }
+                    },
+                    [_vm._v("GUARDAR")]
+                  )
+                ])
+              ])
+            ])
+          ]
+        )
+      ])
+    ])
+  ])
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "row" }, [
+      _c("div", { staticClass: "col" }, [
+        _c("div", { staticClass: "form-group" }, [
+          _c("label", { attrs: { for: "nombre" } }, [_vm._v("Nombre:")]),
+          _vm._v(" "),
+          _c("input", {
+            staticClass: "form-control",
+            attrs: {
+              autocomplete: "off",
+              type: "text",
+              name: "name",
+              id: "name",
+              autofocus: ""
+            }
+          })
+        ])
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "col" }, [
+        _c("div", { staticClass: "form-group" }, [
+          _c("label", { attrs: { for: "username" } }, [_vm._v("Usuario:")]),
+          _vm._v(" "),
+          _c("input", {
+            staticClass: "form-control",
+            attrs: {
+              autocomplete: "off",
+              type: "text",
+              "wire:model.lazy": "username",
+              name: "username",
+              id: "username"
+            }
+          })
+        ])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "row" }, [
+      _c("div", { staticClass: "col" }, [
+        _c("div", { staticClass: "form-group" }, [
+          _c("label", { attrs: { for: "password" } }, [_vm._v("Contraseña:")]),
+          _vm._v(" "),
+          _c("input", {
+            staticClass: "form-control",
+            attrs: {
+              autocomplete: "off",
+              type: "password",
+              "wire:model.lazy": "password",
+              name: "password",
+              id: "password"
+            }
+          })
+        ])
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "col" }, [
+        _c("div", { staticClass: "form-group" }, [
+          _c("label", { attrs: { for: "password_confirmation" } }, [
+            _vm._v("Confirmar:")
+          ]),
+          _vm._v(" "),
+          _c("input", {
+            staticClass: "form-control",
+            attrs: {
+              autocomplete: "off",
+              "wire:model.lazy": "password_confirmation",
+              type: "password",
+              name: "password_confirmation",
+              id: "password_confirmation"
+            }
+          })
+        ])
+      ])
+    ])
+  }
+]
 render._withStripped = true
 
 
@@ -69426,7 +70142,224 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div")
+  return _c("div", { staticClass: "container" }, [
+    _c("div", { staticClass: "row mt-5" }, [
+      _c("div", { staticClass: "col-8 mx-auto" }, [
+        _c(
+          "form",
+          {
+            staticClass: "bg-white border rounded shadow p-2",
+            attrs: { method: "POST", id: "createFormUser" }
+          },
+          [
+            _c("div", [
+              _c("h1", { staticClass: "font-weight-bold" }, [
+                _vm._v("Datos Usuario")
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "row" }, [
+                _c("div", { staticClass: "col" }, [
+                  _c("div", { staticClass: "form-group" }, [
+                    _c("label", { attrs: { for: "nombre" } }, [
+                      _vm._v("Nombre:")
+                    ]),
+                    _vm._v(" "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.user.name,
+                          expression: "user.name"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      attrs: {
+                        autocomplete: "off",
+                        type: "text",
+                        name: "name",
+                        id: "name",
+                        autofocus: ""
+                      },
+                      domProps: { value: _vm.user.name },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(_vm.user, "name", $event.target.value)
+                        }
+                      }
+                    })
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "col" }, [
+                  _c("div", { staticClass: "form-group" }, [
+                    _c("label", { attrs: { for: "username" } }, [
+                      _vm._v("Usuario:")
+                    ]),
+                    _vm._v(" "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.user.username,
+                          expression: "user.username"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      attrs: {
+                        autocomplete: "off",
+                        type: "text",
+                        name: "username",
+                        id: "username"
+                      },
+                      domProps: { value: _vm.user.username },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(_vm.user, "username", $event.target.value)
+                        }
+                      }
+                    })
+                  ])
+                ])
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "row" }, [
+                _c("div", { staticClass: "col" }, [
+                  _c("div", { staticClass: "form-group" }, [
+                    _c("label", { attrs: { for: "password" } }, [
+                      _vm._v("Contraseña:")
+                    ]),
+                    _vm._v(" "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.user.password,
+                          expression: "user.password"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      attrs: {
+                        autocomplete: "off",
+                        type: "password",
+                        name: "password",
+                        id: "password"
+                      },
+                      domProps: { value: _vm.user.password },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(_vm.user, "password", $event.target.value)
+                        }
+                      }
+                    })
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "col" }, [
+                  _c("div", { staticClass: "form-group" }, [
+                    _c("label", { attrs: { for: "password_confirmation" } }, [
+                      _vm._v("Confirmar:")
+                    ]),
+                    _vm._v(" "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.user.password,
+                          expression: "user.password"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      attrs: {
+                        autocomplete: "off",
+                        type: "password",
+                        name: "password_confirmation",
+                        id: "password_confirmation"
+                      },
+                      domProps: { value: _vm.user.password },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(_vm.user, "password", $event.target.value)
+                        }
+                      }
+                    })
+                  ])
+                ])
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "row" }, [
+                _c("div", { staticClass: "col-4" }, [
+                  _c("div", { staticClass: "form-group" }, [
+                    _c("label", { attrs: { for: "role" } }, [_vm._v("Rol:")]),
+                    _vm._v(" "),
+                    _c(
+                      "select",
+                      { attrs: { name: "role", id: "role" } },
+                      _vm._l(_vm.roles, function(role) {
+                        return _c(
+                          "option",
+                          {
+                            key: role.id,
+                            domProps: {
+                              selected:
+                                role.name == _vm.user.roles_u[0].name
+                                  ? true
+                                  : false,
+                              value: role.name
+                            }
+                          },
+                          [
+                            _vm._v(
+                              "\n                                        " +
+                                _vm._s(role.description)
+                            )
+                          ]
+                        )
+                      }),
+                      0
+                    )
+                  ])
+                ])
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "row mb-2" }, [
+                _c("div", { staticClass: "col-4 mx-auto" }, [
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-success btn-block shadow",
+                      attrs: { type: "button" },
+                      on: {
+                        click: function($event) {
+                          return _vm.guardarUsuario()
+                        }
+                      }
+                    },
+                    [_vm._v("GUARDAR")]
+                  )
+                ])
+              ])
+            ])
+          ]
+        )
+      ])
+    ])
+  ])
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -69513,7 +70446,8 @@ var staticRenderFns = [
                 attrs: {
                   "data-field": "operate",
                   "data-width": "100",
-                  "data-formatter": "operateFormatter"
+                  "data-formatter": "operateFormatter",
+                  "data-events": "operateEvents"
                 }
               },
               [_vm._v("Acciones")]
@@ -85944,8 +86878,12 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vue_router__WEBPACK_IMPORTED_MODU
       name: 'user_create',
       components: __webpack_require__(/*! ./components/views/user/create */ "./resources/js/components/views/user/create.vue")
     }, {
-      path: 'user/:id/edit',
+      path: 'user/:user/edit',
       name: 'user_edit',
+      props: {
+        "default": true,
+        sidebar: false
+      },
       components: __webpack_require__(/*! ./components/views/user/edit */ "./resources/js/components/views/user/edit.vue")
     }, ////**************Rutas Control*****************
     {
@@ -85966,8 +86904,11 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vue_router__WEBPACK_IMPORTED_MODU
       name: 'reporte_lote_index',
       components: __webpack_require__(/*! ./components/views/lote/reporte/index */ "./resources/js/components/views/lote/reporte/index.vue")
     }, {
-      path: 'reportes/lote/:id',
+      path: 'reportes/lote/:lote',
       name: 'reporte_lote_show',
+      props: {
+        "default": true
+      },
       components: __webpack_require__(/*! ./components/views/lote/reporte/show */ "./resources/js/components/views/lote/reporte/show.vue")
     }, ////**************Rutas Soporte*****************
     {

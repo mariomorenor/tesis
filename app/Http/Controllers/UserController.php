@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Spatie\Permission\Models\Role;
 
 class UserController extends Controller
 {
@@ -39,7 +41,15 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        return $request;
+        $validatedData = $request->validate([
+            'name' => 'required|min:3',
+            'username' => 'required|min:3',
+            'password' => 'required|confirmed',
+            'role'=>'required'
+        ]);
+            $validatedData['password'] = Hash::make($request->password);
+        $user = User::create($validatedData);
+        $user->assignRole($validatedData['role']);
     }
 
     /**
@@ -73,7 +83,20 @@ class UserController extends Controller
      */
     public function update(Request $request, User $user)
     {
-        //
+        $validatedData = $request->validate([
+            'name' => 'required|min:3',
+            'username' => 'required|min:3',
+            'password' => 'required|confirmed',
+            'role'=>'required'
+        ]);
+    
+        $user->removeRole($user->Roles_u[0]->name);
+        $user->update([
+            'name'=>$validatedData['name'],
+            'username'=>$validatedData['username'],
+            'password'=>Hash::make($validatedData['password']),
+        ]);
+        $user->assignRole($validatedData['role']);
     }
 
     /**
@@ -97,6 +120,15 @@ class UserController extends Controller
             return response()->json([
                 'rows'=> $users
             ]);
+        }
+    }
+
+    public function roles(Request $request)
+    {
+        
+        if ($request->ajax()) {
+            $roles = Role::orderBy('name','desc')->get();
+            return response()->json($roles);
         }
     }
 }

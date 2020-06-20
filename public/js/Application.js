@@ -32,13 +32,13 @@ function delete_User(nameField, id) {
 function operateFormatter(value,row, index, fieldc) {
  
 
-    let buttons = `<a href="/users/`+row.id+`/edit" class="btn btn-primary btn-sm">
+    let buttons = `<button class="btn btn-primary btn-sm editUser">
                         <i class="fas fa-edit"></i>
-                    </a>`;
+                    </button>`;
                 
     
-       if(row.roles_u[0].name == 'admin')
-          buttons = ''; 
+    //    if(row.roles_u[0].name == 'admin')
+    //       buttons = ''; 
       
   
 buttons +=  `<button onclick="delete_User('`+row.name+`','`+row.id+`')" class="ml-1 btn btn-danger btn-sm">
@@ -54,3 +54,23 @@ return buttons;
 //         values: row.id
 //     })
 // }
+
+//***********************   REPORTS  **********************
+
+function date_outFormatter(value, row) {
+    if (row.state == "F") {
+        return row.date_out;
+    } else if (row.state == "W") {
+        return 'Lote en Espera'
+    } else {
+        return 'Lote en Producción'
+    }
+}
+
+
+function operateForm(value, row) {
+    let infoButton = `<button  class="btn btn-primary shadow btnInfoLote">
+                        <i class="fas fa-info-circle"></i>
+                    </button>`;
+        return infoButton;
+}

@@ -13,7 +13,7 @@
                             <th data-field="name">Nombres</th>
                             <th data-field="username">Usuario</th>
                             <th data-field="roles_u"  data-formatter="rolesFormatter" >Rol</th>
-                            <th data-field="operate" data-width="100" data-formatter="operateFormatter">Acciones</th>
+                            <th data-field="operate" data-width="100" data-formatter="operateFormatter" data-events="operateEvents">Acciones</th>
                             </tr>
                         </thead>
                         <tbody></tbody>
@@ -26,6 +26,14 @@
 </template>
 
 <script>
+
+window.operateEvents = {
+    'click .editUser': function (e, value, row) {
+
+            app.__vue__.$router.push({name: 'user_edit', params:{user:row}});
+      }
+}
+
 export default {
 mounted() {
  
