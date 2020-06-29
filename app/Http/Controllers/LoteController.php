@@ -172,16 +172,15 @@ class LoteController extends Controller
     // }
 
     // // Listar Todos los Lotes
-    // public function getLotes(Request $request)
-    // {
-    //     if($request->ajax()){
-    //         $lotes_produced = Lote::orderBy('date_in','desc')->get();
-
-    //         return response()->json([
-    //             'rows'=>$lotes_produced
-    //         ]);
-    //     }  
-    // }
+    public function getLotes(Request $request)
+    {
+        if($request->ajax()){
+            $lotes_produced = Lote::orderBy('date_in','desc')->get();
+            return response()->json([
+                'rows'=>$lotes_produced
+            ]);
+        }  
+    }
 
     // // Mostrar detalles de Lote VIsta
     // public function show(Lote $lote)

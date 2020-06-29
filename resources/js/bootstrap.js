@@ -12,9 +12,15 @@ try {
 
     require('bootstrap');
     
+<<<<<<< HEAD
 $(function () {
     $('[data-toggle="tooltip"]').tooltip()
 })
+=======
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip()
+      })
+>>>>>>> ab9cc6bd0a625ad6f648e297d41c497e9b1ec103
 
 } catch (e) {}
 

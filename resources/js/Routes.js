@@ -26,8 +26,14 @@ export default new Router({
                     components: require('./components/views/user/create')
                 },
                 {
+<<<<<<< HEAD
                     path: 'user/:id/edit',
                     name: 'user_edit',
+=======
+                    path: 'user/:user/edit',
+                    name: 'user_edit',
+                    props:{default:true, sidebar:false},
+>>>>>>> ab9cc6bd0a625ad6f648e297d41c497e9b1ec103
                     components: require('./components/views/user/edit')
                 },
                 ////**************Rutas Control*****************
@@ -53,8 +59,14 @@ export default new Router({
                     components: require('./components/views/lote/reporte/index')
                 },
                 {
+<<<<<<< HEAD
                     path: 'reportes/lote/:id',
                     name: 'reporte_lote_show',
+=======
+                    path: 'reportes/lote/:lote',
+                    name: 'reporte_lote_show',
+                    props:{default:true},
+>>>>>>> ab9cc6bd0a625ad6f648e297d41c497e9b1ec103
                     components: require('./components/views/lote/reporte/show')
                 },
                 ////**************Rutas Soporte*****************

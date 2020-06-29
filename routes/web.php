@@ -29,6 +29,15 @@ Route::get('/', function(){
 
     });
 
+      //******************Rutas de Usuario****************
+    Route::get('getusers', 'UserController@getUsers');
+    Route::get('roles','UserController@roles');
+    Route::resource('users', 'UserController');    
+
+
+    //******************Rutas de Lote ******************/
+
+    Route::get('getLotes','LoteController@getLotes');
 
 // Auth::routes(['register'=>false, 'confirm'=>false,'reset'=>false]);
 

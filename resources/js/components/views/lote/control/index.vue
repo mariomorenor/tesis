@@ -80,6 +80,15 @@
                   <button data-toggle="modal" data-target="#modal_lossesConfig" data-backdrop="false"
                       class="btn btn-primary btn-block shadow">Agregar Unidades Perdidas</button>
               </div>
+              <div class="form-group panelPruebas">
+                  <button @click="iniciarMotor()" class="btn btn-secondary" id="activarMotorBtn">
+                      Activar Comida
+                  </button>
+                  <button disabled @click="stopMotor()" class="btn btn-secondary" id="desactivarMotorBtn">
+                      Desactivar Comida
+                  </button>
+
+              </div>
           </div>
           <div class="col-3 px-0">
               <div class="ml-auto">
@@ -94,13 +103,16 @@
 export default {
 data() {
     return {
-        
+        timeMotor: 3000,
+        valueSilo: 75,
+        cicloAlimentacion: '',
+        timeDisminucionComida:8500
 
         
     }
 },
 created() {
-    // this.checkLote();
+  
     this.$store.commit('checkLote')
 },
 
@@ -138,14 +150,11 @@ methods: {
              this.$store.commit('stop')
                
         }
-
-
-
-     
     },
     initControl(){   
             var maximaTemperatura;
             var minimaTemperatura;
+            let that = this;
             axios.get('temp').then(({data})=>{
             
                 maximaTemperatura = data[0].tempMax;
@@ -154,18 +163,24 @@ methods: {
                 console.log(e.response)
             })
                      
+                     socket.emit('motorOn');
+
+                     setTimeout(function () {
+                         socket.emit('motorOff');
+                       }, that.timeMotor); 
          
                    socket.on('responseTemp',(msg)=> {
                 this.termo.value(msg);
-                if(msg<=minimaTemperatura){
+                if(parseFloat(msg)<=parseFloat(minimaTemperatura)){
                     socket.emit('FanOff');
+                    socket.emit('LuzOn');
+
                 }
-                 if(msg>=maximaTemperatura){
+                 if(parseFloat(msg)>=parseFloat(maximaTemperatura)){
                     socket.emit('FanOn');
+                    socket.emit('LuzOff');
                 }
                 });
-                
-          
     },
     calibrar(){
 
@@ -184,28 +199,30 @@ methods: {
             }
                  if(time == 0){
                 clearInterval(calib);
-                that.silo.value(0)
+                that.silo.value(that.siloValue)
             }
             
         },10)
-
-    //   let  calibTemp = setInterval(function(){
-    //         that.termo.value(contTemp);
-    //         if(contTemp < 100){
-    //             contTemp++
-    //         }else{
-    //             contTemp=0;
-    //             time--;
-    //         }
-    //              if(time == 0){
-    //             clearInterval(calibTemp);
-    //             that.termo.value(0)
-    //         }
-            
-    //     },100)
         this.initControl()
-        
     },
+    iniciarMotor(){
+        let that = this;
+        socket.emit('motorOn');
+       this.cicloAlimentacion =  setInterval(function(){
+            that.silo.value(that.valueSilo--)
+        },this.timeDisminucionComida);
+
+        $('#activarMotorBtn').attr('disabled', 'disabled');
+         $('#desactivarMotorBtn').removeAttr('disabled');
+    },
+    stopMotor(){
+        let that = this;
+        clearInterval(this.cicloAlimentacion);
+        socket.emit('motorOff');
+              $('#desactivarMotorBtn').attr('disabled', 'disabled');
+                $('#activarMotorBtn').removeAttr('disabled');
+  
+    }
 
 },
 mounted() {

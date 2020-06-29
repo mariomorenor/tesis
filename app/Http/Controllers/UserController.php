@@ -5,11 +5,20 @@ namespace App\Http\Controllers;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+<<<<<<< HEAD
+=======
+use Illuminate\Support\Facades\Hash;
+use Spatie\Permission\Models\Role;
+>>>>>>> ab9cc6bd0a625ad6f648e297d41c497e9b1ec103
 
 class UserController extends Controller
 {
     public function __construct() {
+<<<<<<< HEAD
         $this->middleware('role');
+=======
+        // $this->middleware('role');
+>>>>>>> ab9cc6bd0a625ad6f648e297d41c497e9b1ec103
     }
     /**
      * Display a listing of the resource.
@@ -39,7 +48,19 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
+<<<<<<< HEAD
         return $request;
+=======
+        $validatedData = $request->validate([
+            'name' => 'required|min:3',
+            'username' => 'required|min:3',
+            'password' => 'required|confirmed',
+            'role'=>'required'
+        ]);
+            $validatedData['password'] = Hash::make($request->password);
+        $user = User::create($validatedData);
+        $user->assignRole($validatedData['role']);
+>>>>>>> ab9cc6bd0a625ad6f648e297d41c497e9b1ec103
     }
 
     /**
@@ -73,7 +94,24 @@ class UserController extends Controller
      */
     public function update(Request $request, User $user)
     {
+<<<<<<< HEAD
         //
+=======
+        $validatedData = $request->validate([
+            'name' => 'required|min:3',
+            'username' => 'required|min:3',
+            'password' => 'required|confirmed',
+            'role'=>'required'
+        ]);
+    
+        $user->removeRole($user->Roles_u[0]->name);
+        $user->update([
+            'name'=>$validatedData['name'],
+            'username'=>$validatedData['username'],
+            'password'=>Hash::make($validatedData['password']),
+        ]);
+        $user->assignRole($validatedData['role']);
+>>>>>>> ab9cc6bd0a625ad6f648e297d41c497e9b1ec103
     }
 
     /**
@@ -89,13 +127,33 @@ class UserController extends Controller
 
     public function getUsers(Request $request)
     {
+<<<<<<< HEAD
         if ($request->ajax()) {
             
             $users = User::all()->except([Auth::id()]);
            
+=======
+    //   return User::all();
+        if ($request->ajax()) {
+            
+            $users = User::all()->except([Auth::id()]);
+            
+>>>>>>> ab9cc6bd0a625ad6f648e297d41c497e9b1ec103
             return response()->json([
                 'rows'=> $users
             ]);
         }
     }
+<<<<<<< HEAD
+=======
+
+    public function roles(Request $request)
+    {
+        
+        if ($request->ajax()) {
+            $roles = Role::orderBy('name','desc')->get();
+            return response()->json($roles);
+        }
+    }
+>>>>>>> ab9cc6bd0a625ad6f648e297d41c497e9b1ec103
 }
