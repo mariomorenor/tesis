@@ -182,6 +182,11 @@ class LoteController extends Controller
         }  
     }
 
+    public function detalleLote()
+    {
+        
+    }
+
     // // Mostrar detalles de Lote VIsta
     // public function show(Lote $lote)
     // {

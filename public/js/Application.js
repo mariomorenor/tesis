@@ -17,7 +17,7 @@ function delete_User(nameField, id) {
                 success: function (response) {
                     // console.log(response)
                     Swal.fire('Operación realizada Correctamente!','','success'); 
-                    $table.bootstrapTable("remove",{
+                    $('#usersTable').bootstrapTable("remove",{
                         field: 'name',
                         values: nameField
                     })
@@ -29,10 +29,10 @@ function delete_User(nameField, id) {
         }
     });
 }
-function operateFormatter(value,row, index, fieldc) {
+function operateFormatterUser(value,row, index, fieldc) {
  
 
-    let buttons = `<button class="btn btn-primary btn-sm editUser">
+    let buttons = `<button class="btn btn-primary btn-sm editUserTable">
                         <i class="fas fa-edit"></i>
                     </button>`;
                 
@@ -74,3 +74,25 @@ function operateForm(value, row) {
                     </button>`;
         return infoButton;
 }
+
+function totalComida(data) {
+    var field = this.field
+    return data.map(function (row) {
+      return +row[field]
+    }).reduce(function (sum, i) {
+      return sum + i
+    }, 0)
+}
+function totalMuertes(data) {
+    var field = this.field
+    return data.map(function (row) {
+      return +row[field]
+    }).reduce(function (sum, i) {
+      return sum + i
+    }, 0)
+}
+
+function totalC(data) {
+    return 'TOTAL'
+}
+

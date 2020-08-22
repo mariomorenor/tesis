@@ -1,6 +1,6 @@
 <?php
 
-use Illuminate\Support\Facades\DB;
+
 
 Route::get('/', function(){
         // $temp = DB::table('temperaturas')->where('dia',1)->first(['tempMin as Min','tempMax as Max']);
@@ -38,6 +38,8 @@ Route::get('/', function(){
     //******************Rutas de Lote ******************/
 
     Route::get('getLotes','LoteController@getLotes');
+    Route::get('reportesLote','DailyReportController@mostrarLote');
+    Route::resource('reportes','DailyReportController');
 
 // Auth::routes(['register'=>false, 'confirm'=>false,'reset'=>false]);
 

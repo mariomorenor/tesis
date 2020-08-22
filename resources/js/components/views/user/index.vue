@@ -1,12 +1,4 @@
 <template>
-<<<<<<< HEAD
-  
-</template>
-
-<script>
-export default {
-
-=======
  
     <div class="container ">
         <div class="row mt-3">
@@ -21,7 +13,7 @@ export default {
                             <th data-field="name">Nombres</th>
                             <th data-field="username">Usuario</th>
                             <th data-field="roles_u"  data-formatter="rolesFormatter" >Rol</th>
-                            <th data-field="operate" data-width="100" data-formatter="operateFormatter" data-events="operateEvents">Acciones</th>
+                            <th data-field="operate" data-width="100" data-formatter="operateFormatterUser" data-events="operateEventsUser">Acciones</th>
                             </tr>
                         </thead>
                         <tbody></tbody>
@@ -35,9 +27,8 @@ export default {
 
 <script>
 
-window.operateEvents = {
-    'click .editUser': function (e, value, row) {
-
+window.operateEventsUser = {
+    'click .editUserTable': function (e, value, row) {
             app.__vue__.$router.push({name: 'user_edit', params:{user:row}});
       }
 }
@@ -65,7 +56,6 @@ methods: {
     });
     }
 },
->>>>>>> ab9cc6bd0a625ad6f648e297d41c497e9b1ec103
 }
 </script>
 

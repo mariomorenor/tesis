@@ -17,14 +17,13 @@ class CreateDailyReportsTable extends Migration
             $table->id();
             $table->foreignId('lote_id')->constrained();
             $table->date('date')->current();
-            $table->integer('cant_fund')->default(0);
+            // $table->integer('cant_fund')->default(0);
             $table->integer('feed');
-            $table->integer('feed_cumulative');
+            // $table->integer('feed_cumulative');
             $table->integer('deaths')->default(0);
-            $table->integer('cumulative_deaths')->default(0);
-            $table->integer('cumulative_deaths_percent')->default(0);
-            $table->integer('total_birds');
-            $table->integer('weight_gr')->nullable();
+            // $table->integer('cumulative_deaths')->default(0);
+            // $table->integer('cumulative_deaths_percent')->default(0);
+            // $table->integer('weight_gr')->nullable();
             $table->timestamps();
         });
 

@@ -5,7 +5,7 @@
           <li><router-link :to="{name:'control_lote_index'}">Control</router-link></li>
           <li><router-link :to="{name:'reporte_lote_index'}">Reportes</router-link></li>
           <li><router-link :to="{name:'user_index'}">Usuarios</router-link></li>
-          <li><router-link :to="{name:'support'}">Soporte</router-link></li>
+          <!-- <li><router-link :to="{name:'support'}">Soporte</router-link></li> -->
       </ul>
   </div>
 </template>

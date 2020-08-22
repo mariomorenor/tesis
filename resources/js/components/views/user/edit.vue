@@ -1,7 +1,4 @@
 <template>
-<<<<<<< HEAD
-  
-=======
       <div class="container">
           <div class="row mt-5">
               <div class="col-8 mx-auto">
@@ -61,14 +58,10 @@
               </div>
           </div>
       </div>
->>>>>>> ab9cc6bd0a625ad6f648e297d41c497e9b1ec103
 </template>
 
 <script>
 export default {
-<<<<<<< HEAD
-
-=======
     data() {
         return {
             roles:'',
@@ -116,7 +109,6 @@ methods: {
         });
     }
 },
->>>>>>> ab9cc6bd0a625ad6f648e297d41c497e9b1ec103
 }
 </script>
 

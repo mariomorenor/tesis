@@ -24,13 +24,9 @@
         "vue-template-compiler": "^2.6.10"
     },
     "dependencies": {
-<<<<<<< HEAD
-        "babel-preset-latest": "^6.24.1",
-=======
         "@fortawesome/fontawesome-free": "^5.13.1",
         "babel-preset-latest": "^6.24.1",
         "bootstrap-table": "^1.16.0",
->>>>>>> ab9cc6bd0a625ad6f648e297d41c497e9b1ec103
         "child_process": "^1.0.2",
         "childprocess": "^2.0.2",
         "express": "^4.15.2",

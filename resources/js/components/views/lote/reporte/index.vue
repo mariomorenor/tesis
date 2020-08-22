@@ -1,12 +1,4 @@
 <template>
-<<<<<<< HEAD
-  
-</template>
-
-<script>
-export default {
-
-=======
       <div class="container">
         <div class="row">
             <div class="col-9 mx-auto">
@@ -17,7 +9,7 @@ export default {
                                 <th data-field="code">Código</th>
                                 <th data-field="date_in">Fecha Ingreso</th>
                                 <th data-field="date_out" data-formatter="date_outFormatter">Fecha Salida</th>
-                                <th data-field="operate" data-align="center" data-formatter="operateForm" data-events="operateEvents"></th>
+                                <th data-field="operate" data-align="center" data-formatter="operateForm" data-events="operateEventsLote"></th>
                             </tr>
                         </thead>
                     </table>
@@ -29,11 +21,10 @@ export default {
 
 <script>
 
-window.operateEvents = {
+window.operateEventsLote = {
     
     'click .btnInfoLote': function(e, value, row){
-            app.__vue__.$router.push({name:'reporte_lote_show',params:{lote:row}
-            });
+            app.__vue__.$router.push({name:'reporte_lote_show',params:{lote:row}});
     }
 }
 
@@ -52,7 +43,6 @@ methods: {
     });
     }
 },
->>>>>>> ab9cc6bd0a625ad6f648e297d41c497e9b1ec103
 }
 </script>
 

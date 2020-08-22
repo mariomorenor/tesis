@@ -79,7 +79,7 @@ const store = new Vuex.Store({
             axios.get('checkControlLote').then(({data})=>{
                 // console.log(data[0].id)
                 axios.get('show_control_lote/'+data[0].id).then(({data})=>{
-                    // console.log(data)
+                    console.log(data)
                         state.cantidadComedero = data.lote.quantity_feeder;
                         state.cantidadMinComedero = data.lote.min_quantity_feeder;
                         state.cantidadSilo = data.lote.quantity_Silo;
@@ -87,7 +87,7 @@ const store = new Vuex.Store({
                         state.tempMax = data.temp.Max;
                         state.tempMin = data.temp.Min;
                         state.productionActive = data.lote.active;
-                        state.id_lote = data.lote.id
+                        state.id_lote = data.lote.lote_id
                         }).catch((e)=>{
                             console.log(e.response);
                         });

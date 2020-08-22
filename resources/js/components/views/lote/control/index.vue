@@ -63,6 +63,7 @@
                           <div class="d-flex">
                               <input v-model="$store.state.tempMax" type="text" class="form-control text-center text-success font-weight-bold" readonly>
                               <label class="my-auto ml-2">ºC</label>
+                              <input type="hidden" id="id_lote" :value="$store.state.id_lote">
                           </div>
                       </div>
                   </div>
@@ -77,8 +78,8 @@
                   </div>
               </div>
               <div class="form-group">
-                  <button data-toggle="modal" data-target="#modal_lossesConfig" data-backdrop="false"
-                      class="btn btn-primary btn-block shadow">Agregar Unidades Perdidas</button>
+                  <button data-toggle="modal" data-target="#reporteDiario" data-backdrop="false"
+                       class="btn btn-primary btn-block shadow">Agregar Reporte</button> 
               </div>
               <div class="form-group panelPruebas">
                   <button @click="iniciarMotor()" class="btn btn-secondary" id="activarMotorBtn">
@@ -96,147 +97,207 @@
               </div>
           </div>
       </div>
+
+    <div class="modal fade" id="reporteDiario" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+       <div class="form-group">
+           <label for="">Cantidad Comida Utilizada(Kg):</label>
+           <input type="number" class="form-control" v-model="comida">
+       </div>
+       <div class="form-group">
+           <label for="">Unidades Perdidas:</label>
+           <input type="number" class="form-control" v-model="muertes">
+       </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+        <button type="button" class="btn btn-primary" @click="diario()">Guardar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
   </div>
 </template>
 
 <script>
 export default {
-data() {
-    return {
-        timeMotor: 3000,
-        valueSilo: 75,
-        cicloAlimentacion: '',
-        timeDisminucionComida:8500
-
-        
-    }
-},
-created() {
-  
-    this.$store.commit('checkLote')
-},
-
-methods: {
-    checkLote(){
-        axios.get('checkControlLote').then(({data})=>{
-            axios.get('show_control_lote/'+data[0].id).then(({data})=>{
-            console.log(data)
-                    this.cantidadComedero = data.quantity_feeder;
-                    this.cantidadMinComedero = data.min_quantity_feeder;
-                    this.cantidadSilo = data.quantity_Silo;
-                    this.cantidadMinSilo = data.min_quantity_Silo;
-                    this.tempMax = data.max_temp;
-                    this.tempMin = data.min_temp;
-                    }).catch((e)=>{
-                        console.log(e);
-                    });
-            })
-            .catch(({response})=>{
-                if (response.data.error.message == 'Lote not found' ) {
-                    this.$router.push({name:'control_lote_init'});
-                }
-            });
-    },
-   
-    togglePower(){
-        
-        if (!this.$store.state.productionActive) {
-            this.$store.state.productionActive= true;
-            
-           this.$store.commit('controlInit')
-            this.calibrar()
-            this.initControl();
-        }else{
-             this.$store.commit('stop')
-               
+    data() {
+        return {
+            timeMotor: 3000,
+            valueSilo: 75,
+            cicloAlimentacion: '',
+            timeDisminucionComida: 8500,
+            comida:'',
+            muertes:0
         }
     },
-    initControl(){   
+    created() {
+
+        this.$store.commit('checkLote')
+    },
+    methods: {
+        checkLote() {
+            axios.get('checkControlLote').then(({
+                    data
+                }) => {
+                    axios.get('show_control_lote/' + data[0].id).then(({
+                        data
+                    }) => {
+                        console.log(data)
+                        this.cantidadComedero = data.quantity_feeder;
+                        this.cantidadMinComedero = data.min_quantity_feeder;
+                        this.cantidadSilo = data.quantity_Silo;
+                        this.cantidadMinSilo = data.min_quantity_Silo;
+                        this.tempMax = data.max_temp;
+                        this.tempMin = data.min_temp;
+                    }).catch((e) => {
+                        console.log(e);
+                    });
+                })
+                .catch(({
+                    response
+                }) => {
+                    if (response.data.error.message == 'Lote not found') {
+                        this.$router.push({
+                            name: 'control_lote_init'
+                        });
+                    }
+                });
+        },
+        togglePower() {
+            if (!this.$store.state.productionActive) {
+                this.$store.state.productionActive = true;
+
+                this.$store.commit('controlInit')
+                this.calibrar()
+                this.initControl();
+            } else {
+                this.$store.commit('stop')
+
+            }
+        },
+        initControl() {
             var maximaTemperatura;
             var minimaTemperatura;
             let that = this;
-            axios.get('temp').then(({data})=>{
-            
+            axios.get('temp').then(({
+                data
+            }) => {
+
                 maximaTemperatura = data[0].tempMax;
                 minimaTemperatura = data[0].tempMin;
-            }).catch((e)=>{
+            }).catch((e) => {
                 console.log(e.response)
             })
-                     
-                     socket.emit('motorOn');
+            socket.emit('motorOn');
 
-                     setTimeout(function () {
-                         socket.emit('motorOff');
-                       }, that.timeMotor); 
-         
-                   socket.on('responseTemp',(msg)=> {
+            setTimeout(function () {
+                socket.emit('motorOff');
+            }, that.timeMotor);
+
+            socket.on('responseTemp', (msg) => {
                 this.termo.value(msg);
-                if(parseFloat(msg)<=parseFloat(minimaTemperatura)){
+                if (parseFloat(msg) <= parseFloat(minimaTemperatura)) {
                     socket.emit('FanOff');
                     socket.emit('LuzOn');
 
                 }
-                 if(parseFloat(msg)>=parseFloat(maximaTemperatura)){
+                if (parseFloat(msg) >= parseFloat(maximaTemperatura)) {
                     socket.emit('FanOn');
                     socket.emit('LuzOff');
                 }
-                });
-    },
-    calibrar(){
+            });
+        },
+        calibrar() {
+            let cont = 0;
+            let contTemp = 0;
+            let time = 3;
+            var that = this;
 
-        let cont = 0;
-        let contTemp = 0;
-        let time = 3;
-        var that = this;
+            let calib = setInterval(function () {
+                that.silo.value(cont);
+                if (cont < 100) {
+                    cont++
+                } else {
+                    cont = 0;
+                    time--;
+                }
+                if (time == 0) {
+                    clearInterval(calib);
+                    that.silo.value(that.siloValue)
+                }
+            }, 10)
+            this.initControl()
+        },
+        iniciarMotor() {
+            let that = this;
+            socket.emit('motorOn');
+            this.cicloAlimentacion = setInterval(function () {
+                that.silo.value(that.valueSilo--)
+            }, this.timeDisminucionComida);
 
-      let  calib = setInterval(function(){
-            that.silo.value(cont);
-            if(cont < 100){
-                cont++
-            }else{
-                cont=0;
-                time--;
-            }
-                 if(time == 0){
-                clearInterval(calib);
-                that.silo.value(that.siloValue)
-            }
+            $('#activarMotorBtn').attr('disabled', 'disabled');
+            $('#desactivarMotorBtn').removeAttr('disabled');
+        },
+        stopMotor() {
+            let that = this;
+            clearInterval(this.cicloAlimentacion);
+            socket.emit('motorOff');
+            $('#desactivarMotorBtn').attr('disabled', 'disabled');
+            $('#activarMotorBtn').removeAttr('disabled');
+
+        },
+        diario(){
             
-        },10)
-        this.initControl()
+            axios.post('/reportes',{
+                comida:this.comida,
+                muertes:this.muertes,
+                lote_id: $('#id_lote').val(),
+            }).then(({data})=>{
+                console.log(data)
+                $('#reporteDiario').modal('hide')
+                this.comida = 0;
+            }).catch(error=>{
+                console.log(error)
+            })
+        }
     },
-    iniciarMotor(){
-        let that = this;
-        socket.emit('motorOn');
-       this.cicloAlimentacion =  setInterval(function(){
-            that.silo.value(that.valueSilo--)
-        },this.timeDisminucionComida);
-
-        $('#activarMotorBtn').attr('disabled', 'disabled');
-         $('#desactivarMotorBtn').removeAttr('disabled');
-    },
-    stopMotor(){
-        let that = this;
-        clearInterval(this.cicloAlimentacion);
-        socket.emit('motorOff');
-              $('#desactivarMotorBtn').attr('disabled', 'disabled');
-                $('#activarMotorBtn').removeAttr('disabled');
-  
-    }
-
-},
-mounted() {
-            this.silo = new Silo("silo", "/img/silo/silo.png", {height: 454, width: 300}, {bottom: 73, height: 337});
-            this.silo.value(0)
-
-           this.termo = new Termometro("termo", "/img/termometro/termometro.png", {height: 1200, width: 300}, {bottom: 40, height: 1080}, 0.4);
-           if (this.$store.state.productionActive) {
-                this.initControl()
-           }
+    mounted() {
+       
            
-},
+        this.silo = new Silo("silo", "/img/silo/silo.png", {
+            height: 454,
+            width: 300
+        }, {
+            bottom: 73,
+            height: 337
+        });
+        this.silo.value(0)
 
+        this.termo = new Termometro("termo", "/img/termometro/termometro.png", {
+            height: 1200,
+            width: 300
+        }, {
+            bottom: 40,
+            height: 1080
+        }, 0.4);
+        if (this.$store.state.productionActive) {
+            this.initControl()
+        }
 
+ 
+    },
 }
 </script>
 
